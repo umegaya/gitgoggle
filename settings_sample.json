@@ -1,0 +1,9 @@
+{
+ "refs/tags/release/[0-9]*$":[
+  ["sample_hooks/release", "root"]
+ ],
+ "refs/heads/master":[
+  ["sample_hooks/master/runtest.rb"]
+ ]
+}
+

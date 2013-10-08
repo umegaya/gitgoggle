@@ -1,0 +1,6 @@
+bin
+vendor
+log/*.log
+tmp
+.bundle
+hooks
