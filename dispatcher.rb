@@ -20,7 +20,7 @@ class Dispatcher
 	end
 	def run_hook_script(file, user)
 		log "process #{file} with #{user ? user : "null"}"
-		json = JSON.generate @data
+		json = URI.encode JSON.generate @data
 		case File.extname(file)
 		when ".rb"
 			sh "ruby #{file} '#{json}'", user
@@ -47,7 +47,7 @@ class Dispatcher
 				else
 					Dir.foreach(path) do |f|
 						next if f =~ /^\.+/
-						next if File.directory?(f)
+						next if File.directory?(path + "/" + f)
 						run_hook_script (path + "/" + f), user
 					end
 				end
