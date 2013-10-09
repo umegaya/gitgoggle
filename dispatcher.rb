@@ -2,7 +2,7 @@ require 'json'
 require 'open3'
 
 class Dispatcher
-	DEBUG = true
+	DEBUG = false
 	def initialize(data)
 		@data = data
 	end
@@ -19,7 +19,7 @@ class Dispatcher
 		end
 	end
 	def run_hook_script(file, user)
-		p "process #{file} with #{user ? user : "null"}"
+		log "process #{file} with #{user ? user : "null"}"
 		json = JSON.generate @data
 		case File.extname(file)
 		when ".rb"
@@ -30,12 +30,14 @@ class Dispatcher
 			raise "invalid ext of file #{file}"
 		end
 	end
+	def log(str)
+		puts str
+	end
 	def run_hook
 		br = commit_branch
-		p "run hook for branch #{br}"
+		log "run hook for branch #{br}"
 		config = JSON.parse File.open("./settings.json").read
 		config.each do |k,list|
-			p "check #{k} and #{br} matched"
 			next if /#{k}/ !~ br
 			list.each do |v|
 				path = File.expand_path(v[0])
@@ -43,13 +45,9 @@ class Dispatcher
 				if File.file?(path) then
 					run_hook_script path, user
 				else
-					p "iterate directory #{path}"
 					Dir.foreach(path) do |f|
-						p "check file : #{f}"
 						next if f =~ /^\.+/
-						p "#{f} is normal path"
 						next if File.directory?(f)
-						p "#{f} is not directory"
 						run_hook_script (path + "/" + f), user
 					end
 				end
