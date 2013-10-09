@@ -32,6 +32,12 @@ rake start
 }
 ```
 
+#### about hook script
+- currently .rb and .sh are supported
+- .rb and .sh is executed by folowing commandline
+ - .rb : runuser -l {user} -c "ruby {script} {url encoded JSON string}"
+ - .sh : runuser -l {user} -c "./{script} {url encoded JSON string}"
+
 #### how to run
 
 ```
