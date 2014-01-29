@@ -23,9 +23,9 @@ class Dispatcher
 		json = URI.encode JSON.generate @data
 		case File.extname(file)
 		when ".rb"
-			sh "ruby #{file} #{json}", user
+			sh "ruby #{file} \"#{json}\"", user
 		when ".sh"
-			sh "#{file} #{json}", user
+			sh "#{file} \"#{json}\"", user
 		else
 			raise "invalid ext of file #{file}"
 		end
